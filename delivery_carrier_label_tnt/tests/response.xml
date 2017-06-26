@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><?xml-stylesheet href="stylesheet.xsl" type="text/xsl"?>
+<CONSIGNMENTBATCH>
+    <BARCODEURL>/barbecue/barcode?type=code39&amp;height=70&amp;width=1&amp;data=</BARCODEURL>
+    <HOST>https://express.tnt.com</HOST>
+    <IMAGESDIR>/expresswebservices-website/rendering/images</IMAGESDIR>
+    <CONSIGNMENT originCountry="GB" marketType="DOMESTIC">
+        <HEADER>
+            <SHIPMENTDATE>16/06/2017</SHIPMENTDATE>
+            <SENDER>
+                <COMPANYNAME><![CDATA[AMS Biotechnology (Europe) Lim]]></COMPANYNAME>
+                <STREETADDRESS1><![CDATA[184 Park Drive]]></STREETADDRESS1>
+                <STREETADDRESS2><![CDATA[Milton Park]]></STREETADDRESS2>
+                <STREETADDRESS3><![CDATA[Milton Park]]></STREETADDRESS3>
+                <CITY><![CDATA[Abingdon]]></CITY>
+                <PROVINCE><![CDATA[Oxfordshire]]></PROVINCE>
+                <POSTCODE>OX14 4SE</POSTCODE>
+                <COUNTRY>UNITED KINGDOM</COUNTRY>
+                <CONTACTNAME><![CDATA[AMS Biotechnology (Europe]]></CONTACTNAME>
+                <CONTACTDIALCODE>44(0)1</CONTACTDIALCODE>
+                <CONTACTTELEPHONE>235828200</CONTACTTELEPHONE>
+                <ACCOUNT>0009542353</ACCOUNT>
+                <VAT>GB 502 2372 95</VAT>
+            </SENDER>
+            <COLLECTION/>
+            <COLLECTIONDEPOTNAME depotCode="11501">MILTON</COLLECTIONDEPOTNAME>
+            <CARRIAGEFORWARD>Y</CARRIAGEFORWARD>
+        </HEADER>
+        <RECEIVER>
+            <COMPANYNAME><![CDATA[Abcam plc]]></COMPANYNAME>
+            <STREETADDRESS1><![CDATA[330 Cambridge Science Park Mil]]></STREETADDRESS1>
+            <STREETADDRESS2><![CDATA[Road ]]></STREETADDRESS2>
+            <CITY><![CDATA[Cambridge]]></CITY>
+            <POSTCODE>CB4 0FL</POSTCODE>
+            <COUNTRY>UNITED KINGDOM</COUNTRY>
+            <CONTACTNAME><![CDATA[Abcam plc]]></CONTACTNAME>
+            <CONTACTDIALCODE>0122369</CONTACTDIALCODE>
+            <CONTACTTELEPHONE>6000</CONTACTTELEPHONE>
+        </RECEIVER>
+        <DELIVERYDEPOTNAME depotCode="12512">WELLINGBOROUGH</DELIVERYDEPOTNAME>
+        <TOTALVOLUME units="m3">2.0</TOTALVOLUME>
+        <TOTALWEIGHT units="kg">2.00</TOTALWEIGHT>
+        <CONSIGNMENTTYPE>N</CONSIGNMENTTYPE>
+        <CONNUMBER>87401685</CONNUMBER>
+        <SERVICE Premium="N">1 Express</SERVICE>
+        <SERVICESHORTNAME>Express</SERVICESHORTNAME>
+        <INSURANCEVALUE>365.00</INSURANCEVALUE>
+        <TOTALITEMS>2</TOTALITEMS>
+        <GOODSVALUE>365.00</GOODSVALUE>
+        <OPTION1></OPTION1>
+        <OPTION2></OPTION2>
+        <OPTION3></OPTION3>
+        <OPTION4></OPTION4>
+        <OPTION5></OPTION5>
+        <DANGEROUSGOODS>N</DANGEROUSGOODS>
+        <CURRENCY>GBP</CURRENCY>
+        <INSURANCECURRENCY>GBP</INSURANCECURRENCY>
+        <PAYMENTIND>S</PAYMENTIND>
+        <CONREF>WHUK\OUT\00015</CONREF>
+        <PDFBARCODEDATA>02 87401685010 112512 Abcam plc330 Cambridge Science Park Mil Road Cambridge CB4 0FL 2 2.00
+            9542353AMS Biotechnology (Europe) Lim03 PA0 0
+        </PDFBARCODEDATA>
+        <PACKAGES>
+            <PACKAGE>
+                <GOODSDESC>Cytonin</GOODSDESC>
+                <LENGTH>1.0</LENGTH>
+                <HEIGHT>1.0</HEIGHT>
+                <WIDTH>1.0</WIDTH>
+                <WEIGHT>1.0</WEIGHT>
+                <ITEMS>1</ITEMS>
+            </PACKAGE>
+            <PACKAGE>
+                <GOODSDESC>CA-MIP Microparticles</GOODSDESC>
+                <LENGTH>1.0</LENGTH>
+                <HEIGHT>1.0</HEIGHT>
+                <WIDTH>1.0</WIDTH>
+                <WEIGHT>1.0</WEIGHT>
+                <ITEMS>1</ITEMS>
+            </PACKAGE>
+        </PACKAGES>
+        <PACKAGE>
+            <GOODSDESC>Cytonin</GOODSDESC>
+            <LENGTH units="cm">100.0</LENGTH>
+            <HEIGHT units="cm">100.0</HEIGHT>
+            <WIDTH units="cm">100.0</WIDTH>
+            <WEIGHT units="Kg">1.0</WEIGHT>
+            <ITEMS>1</ITEMS>
+            <VOLUME units="m3">1.0</VOLUME>
+            <PACKAGEINDEX>1</PACKAGEINDEX>
+            <PACKAGEMAX>2</PACKAGEMAX>
+            <PREVIOUSPACKAGEITEMCOUNT>0</PREVIOUSPACKAGEITEMCOUNT>
+        </PACKAGE>
+        <PACKAGE>
+            <GOODSDESC>CA-MIP Microparticles</GOODSDESC>
+            <LENGTH units="cm">100.0</LENGTH>
+            <HEIGHT units="cm">100.0</HEIGHT>
+            <WIDTH units="cm">100.0</WIDTH>
+            <WEIGHT units="Kg">1.0</WEIGHT>
+            <ITEMS>1</ITEMS>
+            <VOLUME units="m3">1.0</VOLUME>
+            <PACKAGEINDEX>2</PACKAGEINDEX>
+            <PACKAGEMAX>2</PACKAGEMAX>
+            <PREVIOUSPACKAGEITEMCOUNT>1</PREVIOUSPACKAGEITEMCOUNT>
+        </PACKAGE>
+    </CONSIGNMENT>
+</CONSIGNMENTBATCH>

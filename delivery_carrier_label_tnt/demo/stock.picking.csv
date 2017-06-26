@@ -1,0 +1,2 @@
+id,partner_id:id,carrier_id:id,picking_type_id:id,name
+stock_picking_tnt1,base.res_partner_11,delivery_carrier_label_tnt.delivery_carrier_tnt,stock.picking_type_out,TNT01

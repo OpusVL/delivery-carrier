@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- PRODUCT  -->
+        <record id="prod_categ_carrier" model="product.category">
+            <field name="name">Carrier</field>
+        </record>
+        <record id="product_product_tnt" model="product.product">
+            <field name="default_code">SHIP_TNT</field>
+            <field name="standard_price">0.0</field>
+            <field name="cost_method">standard</field>
+            <field name="type">service</field>
+            <field name="name">Cost of Delivery - TNT</field>
+            <field name="categ_id" ref="prod_categ_carrier"/>
+        </record>
+
+        <!-- PARTNER -->
+        <record id="partner_tnt" model="res.partner">
+            <field name="name">TNT</field>
+            <field name="customer" eval="False" />
+            <field name="supplier" eval="True" />
+            <field name="is_company" eval="True" />
+        </record>
+
+        <!-- DELIVERY CARRIER -->
+        <record id="delivery_carrier_tnt" model="delivery.carrier">
+            <field name="name">TNT Express</field>
+            <field name="type">tnt</field>
+            <field name="code">1</field>
+            <field name="partner_id" ref="partner_tnt" />
+            <field name="product_id" ref="product_product_tnt" />
+        </record>
+
+    </data>
+
+    <data noupdate="1">
+
+        <!-- CONFIG PARAMETER -->
+        <!--<record id="delivery_carrier_tnt_customer_code" model="ir.config_parameter">-->
+            <!--<field name="key">carrier_tnt_customer_code</field>-->
+            <!--<field name="value">2500099999</field>-->
+        <!--</record>-->
+        <record id="delivery_carrier_tnt_warehouse" model="ir.config_parameter">
+            <field name="key">carrier_tnt_warehouse</field>
+            <field name="value">FR0099</field>
+        </record>
+
+    </data>
+</openerp>
