@@ -14,6 +14,7 @@ class ProductTemplate(models.Model):
     )
 
 
+# Model for list of hazardous codes
 class HazardousCodes(models.Model):
 
     _name = 'hazardous.codes'
