@@ -462,13 +462,12 @@ class StockPicking(models.Model):
         return combined_weight
 
     def _get_package_totals(self, packages):
-        import pdb;pdb.set_trace()
         package_details = {
             "items": str(len(packages)),
-            "goodsvalue": str(sum(package.quant_ids.product_id.sales_price_gbp for package in packages)),
+            "goodsvalue": str(sum(package.quant_ids.product_id.list_price for package in packages)),
             "totalweight": str(self._get_package_weight(packages)),
             "totalvolume": str(self._get_package_volume(packages)),
-            "insurancevalue": str(sum(package.quant_ids.product_id.sales_price_gbp for package in packages)),
+            "insurancevalue": str(sum(package.quant_ids.product_id.list_price for package in packages)),
         }
         return package_details
 
@@ -500,7 +499,7 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"TOTALWEIGHT": package_totals.get("totalweight")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"TOTALVOLUME": package_totals.get("totalvolume")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"CURRENCY": "GBP"})
-        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"GOODSVALUE": package_totals.get("goodvalue")})
+        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"GOODSVALUE": package_totals.get("goodsvalue")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"INSURANCEVALUE": package_totals.get("insurancevalue")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"INSURANCECURRENCY": "GBP"})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"SERVICE": self.carrier_code})
