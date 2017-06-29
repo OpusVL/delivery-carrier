@@ -272,6 +272,8 @@ class StockPicking(models.Model):
         if packages is None:
             packages = self._get_packages_from_picking()
         delivery = self._prepare_delivery_tnt(len(packages))
+
+        # Prepare individual package xml and insert into base xml
         for package in packages:
             pack_number += 1
             pack = et.fromstring(self._prepare_packages_tnt(package))
@@ -279,6 +281,19 @@ class StockPicking(models.Model):
             pack_node = base.xpath("//DELIVERYINST")[0]
             pack_node.addnext(pack)
             base_data = et.tostring(base, encoding="UTF-8", method="xml", standalone=False)
+
+        # Add hazardous xml
+        if self.product_id.hazardous_id:
+            base = et.fromstring(base_data)
+            target_node = base.xpath("//PACKAGE")[0]
+            hazardous = et.Element("HAZARDOUS")
+            hazardous.text = "Y"
+            unnumber = et.Element("UNNUMBER")
+            unnumber.text = str(self.product_id.hazardous_id.name_id)
+            target_node.addprevious(hazardous)
+            target_node.addprevious(unnumber)
+            base_data = et.tostring(base, encoding="UTF-8", method="xml", standalone=False)
+
         # Remove unneeded newline
         base_data = base_data.replace("\n", "")
         success, label_as_ascii = service.get_label(base_data)
@@ -505,9 +520,6 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DESCRIPTION": False})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DELIVERYINST": False})
 
-        if self.product_id.hazardous_id:
-            base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"HAZARDOUS": "Y"})
-            base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"UNNUMBER": str(self.product_id.hazardous_id.name_id)})
 
         base_dict.update({"ACTIVITY": OrderedDict()})
         base_dict.setdefault("ACTIVITY").update({"CREATE": OrderedDict()})
