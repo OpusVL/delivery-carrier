@@ -227,9 +227,7 @@ class StockPicking(models.Model):
             res.update({"CONTACTTELEPHONE": partner.phone.replace(" ", "")[7:]})
             return res
         else:
-            res.update({"CONTACTDIALCODE": "Unavailable"})
-            res.update({"CONTACTTELEPHONE": "Unavailable"})
-            return res
+            raise exceptions.Warning("You must provide a Receiver Telephone Number")
 
     # TODO Combine with todo above to prepare package details
     @api.model
