@@ -2,7 +2,7 @@
 # © 2015 David BEAL @ Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields
+from openerp import models, fields, api, exceptions
 
 
 class ResCompany(models.Model):
@@ -46,13 +46,28 @@ class ResCompany(models.Model):
         string="Custom Consignment Numbers",
         help="Check field to use custom consignment numbers"
     )
+    tnt_connumber = fields.Char(
+        string="Next Consignment Number",
+        default="00000001",
+        help="The next custom consignment number to use",
+
+    )
     # tnt_traceability = fields.Boolean(
     #     string='Traceability',
     #     help="Record traceability informations in Delivery Order "
     #          "attachment: web service request and response")
-    # tnt_generate_label = fields.Boolean(
-    #     string='Automatically Generate Label',
-    #     help="Generate label when delivery is done")
+    tnt_generate_label = fields.Boolean(
+        string='Automatically Generate Label',
+        help="Generate label when delivery is done")
     tnt_test = fields.Boolean(
         string='Test Mode',
         help="Use testing webservice")
+
+    @api.constrains('tnt_connumber')
+    @api.one
+    def _check_tnt_con_number(self):
+        if len(self.tnt_connumber) != 8:
+            raise exceptions.Warning("Consignment number must be 8 digits")
+
+
+

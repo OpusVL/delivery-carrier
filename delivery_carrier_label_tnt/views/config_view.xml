@@ -60,13 +60,15 @@
                         <newline/>
                         <field name="test_password" class="oe_inline" password="True"/>
                     </group>
-                    <separator string="Other"/>
+                    <separator string="Consignment Numbers"/>
                     <group>
                         <field name="generate_connumber"/>
                         <newline/>
+                        <field name="connumber" class="oe_inline"/>
+                    </group>
+                    <separator string="Other"/>
+                    <group>
                         <field name="test"/>
-                        <newline/>
-                        <field name="show_hazardous"/>
                     </group>
 
                 </form>

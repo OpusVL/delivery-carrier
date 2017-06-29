@@ -35,12 +35,11 @@ class TNTConfigSettings(models.TransientModel):
     generate_connumber = fields.Boolean(
         related="company_id.tnt_generate_connumber"
     )
+    connumber = fields.Char(
+        related="company_id.tnt_connumber"
+    )
     test = fields.Boolean(
         related="company_id.tnt_test"
-    )
-    show_hazardous = fields.Boolean(
-        string="Show Hazardous on Products",
-        help="Show fields for Dry Ice and Hazardous on products"
     )
 
     @api.onchange('company_id')

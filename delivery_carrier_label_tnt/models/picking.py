@@ -287,6 +287,10 @@ class StockPicking(models.Model):
         if not success:
             raise exceptions.Warning("Error code %s received: %s" %(label_as_ascii.status_code, label_as_ascii.reason))
         self.create_tnt_attachment(label_as_ascii)
+        # either user self.company_id.tnt_connumber = blah
+        # or self.company_id.write({'tnt_connumber': blah})
+        if self.company_id.tnt_generate_connumber:
+            self.company_id.tnt_connumber = self._get_next_con_number()
 
 
 
@@ -482,6 +486,11 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").update({"CONSIGNMENT": OrderedDict()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").update({"CONREF": conref})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").update({"DETAILS": OrderedDict()})
+
+        # Check if custom consignment numbers are used and update base_dict if true
+        if self.company_id.tnt_generate_connumber:
+            base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"CONNUMBER": self._calculate_checksum(self.company_id.tnt_connumber)})
+
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"RECEIVER": address})
         # base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DELIVERY": address})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"CUSTOMERREF": False})
@@ -579,3 +588,24 @@ class StockPicking(models.Model):
         else:
             attachment.write(attach_data)
         return attachment.id
+
+    def _calculate_checksum(self, con_number):
+        digit_weights = [8, 6, 4, 2, 3, 5, 9, 7]
+        mod_method = 11
+        number_sum = 0
+
+        for idx, digit in enumerate(con_number):
+            number_sum += int(digit) * digit_weights[idx]
+
+        remainder = float(number_sum / mod_method)
+        check_digit = int(mod_method - remainder)
+        if check_digit == 10:
+            check_digit = 0
+        if check_digit == 11:
+            check_digit = 5
+
+        return con_number + str(check_digit)
+
+    def _get_next_con_number(self):
+        next_con_number = int(self.company_id.tnt_connumber) + 1
+        return str(next_con_number).zfill(8)
