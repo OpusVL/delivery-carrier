@@ -17,9 +17,11 @@
     ],
     'website': 'http://www.akretion.com/',
     'data': [
+        'data/hazardous.codes.csv',
         'data/delivery_carrier.xml',
         'data/sequence.xml',
         'views/config_view.xml',
+        'views/product_view.xml',
         'views/stock_view.xml',
     ],
     'demo': [

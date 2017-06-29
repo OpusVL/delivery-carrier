@@ -499,6 +499,10 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DESCRIPTION": False})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DELIVERYINST": False})
 
+        if self.product_id.hazardous_id:
+            base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"HAZARDOUS": "Y"})
+            base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"UNNUMBER": str(self.product_id.hazardous_id.name_id)})
+
         base_dict.update({"ACTIVITY": OrderedDict()})
         base_dict.setdefault("ACTIVITY").update({"CREATE": OrderedDict()})
         base_dict.setdefault("ACTIVITY").setdefault("CREATE").update({"CONREF": self.name})
