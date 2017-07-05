@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="product_template_form_view_hazardous" model="ir.ui.view">
+            <field name="name">product.template.common.form.hazardous</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='packaging']" position="after">
+                    <group name="hazardous" string="Hazardous" colspan="4">
+                        <field name="hazardous_id"/>
+                    </group>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>
