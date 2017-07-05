@@ -484,6 +484,15 @@ class StockPicking(models.Model):
         }
         return package_details
 
+    def _get_collection_date(self):
+        collection_date = datetime.today() + timedelta(days=1)
+        if collection_date.weekday() < 5:
+            return datetime.strftime(collection_date, "%d/%m/%Y")
+        elif collection_date.weekday() == 5:
+            return datetime.strftime(collection_date + timedelta(days=2), "%d/%m/%Y")
+        elif collection_date.weekday() == 6:
+            return datetime.strftime(collection_date + timedelta(days=1), "%d/%m/%Y")
+
     def _prepare_base_request_data(self, authentication, sender, preftime, alttime, conref, address, package_totals):
         base_dict = OrderedDict()
         base_dict.update({"LOGIN": authentication})
@@ -491,7 +500,7 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").update({"SENDER": sender})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").update({"COLLECTION": OrderedDict()})
         # base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"COLLECTIONADDRESS": self.sender.copy()})
-        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"SHIPDATE": datetime.strftime(datetime.today() + timedelta(days=1), "%d/%m/%Y")})
+        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"SHIPDATE": self._get_collection_date()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"PREFCOLLECTTIME": preftime})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"ALTCOLLECTTIME": alttime})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"COLLINSTRUCTIONS": False})
