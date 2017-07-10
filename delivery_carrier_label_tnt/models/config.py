@@ -56,19 +56,3 @@ class TNTConfigSettings(models.TransientModel):
         # self.generate_label = company.tnt_generate_label
         self.test = company.tnt_test
         self.generate_connumber = company.tnt_generate_connumber
-
-    # @api.model
-    # def default_get(self, fields):
-    #     res = super(TNTConfigSettings, self).default_get(fields)
-    #     param_m = self.env['ir.config_parameter']
-    #     # for field in ['customer_code', 'warehouse']:
-    #     for field in ['customer_code']:
-    #         if field in fields:
-    #             configs = param_m.search(
-    #                 [('key', '=', 'carrier_tnt_%s' % field)])
-    #             if not configs:
-    #                 raise UserError(
-    #                     _("'%s' key is missing in 'System Parameter':\n"
-    #                       "Add it and set the corresponding value.") % field)
-    #             res[field] = configs[0].value
-    #     return res

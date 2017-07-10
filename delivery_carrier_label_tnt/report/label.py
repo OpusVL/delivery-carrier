@@ -40,7 +40,7 @@ URL_PROD = "https://express.tnt.com/expressconnect/shipping/ship"
 
 
 class InvalidDataForMako(Exception):
-    ""
+
     print "InvalidMissingField"
 
 # def TNT_countries_prefix():
@@ -580,7 +580,6 @@ class TNTLabel(AbstractLabel):
         return dom
 
     def get_webservice_response(self, request):
-
         request = "xml_in=" + request
         res = requests.post(self.webservice_location, data=request, headers={'Content-Type': 'application/x-www-form-urlencoded'})
         if res.status_code != 200:

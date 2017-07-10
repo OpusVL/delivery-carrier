@@ -9,14 +9,6 @@ class ResCompany(models.Model):
 
     _inherit = "res.company"
 
-    # tnt_uk_contact_id = fields.Char(
-    #     string='UK',
-    #     size=10,
-    #     help='Contact id for TNT UK tranportation (T8914)')
-    # tnt_inter_contact_id = fields.Char(
-    #     string='International',
-    #     size=10,
-    #     help='Contact id for TNT International transportation (T8914)')
     tnt_user_id = fields.Char(
         string='Username',
         size=30,

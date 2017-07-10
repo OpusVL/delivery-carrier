@@ -6,10 +6,9 @@ import logging
 from openerp import models, api, fields, _
 from openerp.exceptions import Warning as UserError
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
-# URL_TRACKING = "https://gls-group.eu/FR/fr/suivi-colis?match=%s"
 URL_TRACKING = "https://tnt_tracking_url_here_%s"
 
 

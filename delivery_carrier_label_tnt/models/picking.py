@@ -20,7 +20,7 @@ from ..report.label_helper import (
     InvalidMissingField,
     InvalidType,)
 
-# logging.basicConfig(format='%(asctime)-15s %(clientip)s %(user)-8s %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 _logger = logging.getLogger(__name__)
 
 try:
@@ -83,6 +83,7 @@ class StockPicking(models.Model):
         self.ensure_one()
         return True
 
+    # Return ordered dict of TNT login credentials
     @api.model
     def _prepare_authentication_tnt(self):
         creds = OrderedDict()
@@ -122,6 +123,7 @@ class StockPicking(models.Model):
         alttime.update({"TO": "13:00"})
         return alttime
 
+    # Return name/contact of the sender
     @api.model
     def _prepare_address_name_tnt(self, partner):
         consignee = partner.name
@@ -161,6 +163,7 @@ class StockPicking(models.Model):
         return address
 
     # TODO Split this for package details
+    # Return dict to use for total package details
     @api.multi
     def _prepare_delivery_tnt(self, number_of_packages):
         self.ensure_one()
@@ -183,22 +186,7 @@ class StockPicking(models.Model):
     def _prepare_sender_tnt(self):
         self.ensure_one()
         partner = self._get_label_sender_address()
-        # global_infos = self._prepare_global_tnt()
-        # sender = {'contact_id': self.company_id.name,
-        #           # 'customer_id': global_infos['carrier_tnt_customer_code'],
-        #           'contact_id_inter': self.company_id.name,
-        #           # 'outbound_depot': global_infos['carrier_tnt_warehouse']
-        #           }
-        # if partner.country_id:
-        #     sender['country'] = partner.country_id.name
-        # sender.update({
-        #     'shipper_street': partner.street,
-        #     'shipper_street2': partner.street2,
-        #     'shipper_name': partner.name,
-        #     'shipper_country': partner.country_id.code,
-        #     'shipper_zip': partner.zip,
-        #     'shipper_city': partner.city,
-        # })
+
         sender = OrderedDict()
         sender.update({"COMPANYNAME": self.company_id.name})
         sender.update({"STREETADDRESS1": partner.street})
@@ -216,6 +204,7 @@ class StockPicking(models.Model):
         sender.update({"CONTACTEMAIL": partner.email})
         return sender
 
+    # Split telephone number to area code and main within TNT field length constraints
     def telephone_split(self, partner):
         res = OrderedDict()
         if partner.mobile:
@@ -440,6 +429,7 @@ class StockPicking(models.Model):
     def get_shipping_cost(self):
         return 0
 
+    # Take ordered dict and recurse to return in xml
     def dict_to_xml_data(self, parent, data):
         for key, val in data.items():
             item = et.SubElement(parent, key)
@@ -449,8 +439,9 @@ class StockPicking(models.Model):
                 pass
             else:
                 self.dict_to_xml_data(item, val)
-        return et.tostring(parent, encoding='UTF-8', method='xml', standalone=False)
+        return et.tostring(parent, encoding='UTF-8', method='xml', standalone=True)
 
+    # Returns total package volume
     def _get_package_volume(self, packages):
         combined_volume = 0
         for package in packages:
@@ -461,6 +452,7 @@ class StockPicking(models.Model):
                 combined_volume += product_id.volume
         return combined_volume
 
+    # Returns total package weight
     def _get_package_weight(self, packages):
 
         combined_weight = 0
@@ -474,6 +466,7 @@ class StockPicking(models.Model):
             raise exceptions.Warning("Package weight cannot exceed 70kg. Please split to smaller packages")
         return combined_weight
 
+    # Return dict of package totals to add to xml
     def _get_package_totals(self, packages):
         package_details = {
             "items": str(len(packages)),
@@ -484,6 +477,7 @@ class StockPicking(models.Model):
         }
         return package_details
 
+    # Check if collection date is the weekend and adjust collection date accordingly
     def _get_collection_date(self):
         collection_date = datetime.today() + timedelta(days=1)
         if collection_date.weekday() < 5:
@@ -493,6 +487,7 @@ class StockPicking(models.Model):
         elif collection_date.weekday() == 6:
             return datetime.strftime(collection_date + timedelta(days=1), "%d/%m/%Y")
 
+    # Base definition of request data in ordered dict format
     def _prepare_base_request_data(self, authentication, sender, preftime, alttime, conref, address, package_totals):
         base_dict = OrderedDict()
         base_dict.update({"LOGIN": authentication})
@@ -580,10 +575,7 @@ class StockPicking(models.Model):
 
         root = et.Element('PACKAGE')
         package_xml = self.dict_to_xml_data(root, package_dict)
-
         return package_xml
-
-
 
     def create_tnt_attachment(self, newdom_as_ascii):
         """
@@ -607,6 +599,7 @@ class StockPicking(models.Model):
             attachment.write(attach_data)
         return attachment.id
 
+    # Return a valid consignment number when using custom consignment numbers is enabled
     def _calculate_checksum(self, con_number):
         digit_weights = [8, 6, 4, 2, 3, 5, 9, 7]
         mod_method = 11
@@ -624,6 +617,7 @@ class StockPicking(models.Model):
 
         return con_number + str(check_digit)
 
+    # Return the custom consignment number for the consignment currently being worked on
     def _get_next_con_number(self):
         next_con_number = int(self.company_id.tnt_connumber) + 1
         return str(next_con_number).zfill(8)
