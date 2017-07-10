@@ -3,6 +3,5 @@ from . import (
     config,
     delivery,
     picking,
-    product,
     stock,
 )
