@@ -11,13 +11,13 @@
     'summary': "TNT carrier label printing",
     'depends': [
         'base_delivery_carrier_label',
+        'base_delivery_carrier_hazardous',
         'partner_helper',
         'stock_packaging_usability',  # Might not be needed
         'document',
     ],
     'website': 'http://www.akretion.com/',
     'data': [
-        'data/hazardous.codes.csv',
         'data/delivery_carrier.xml',
         'data/sequence.xml',
         'views/config_view.xml',

@@ -32,8 +32,10 @@
     'images': [
     ],
     'depends': [
+        'product'
     ],
     'data': [
+        'data/hazardous.codes.csv',
         'views/product_view.xml',
     ],
     'demo': [
