@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 import base64
 import logging
 from collections import OrderedDict
-
+import re
 import binascii
 from lxml import etree as et
 
@@ -132,6 +132,14 @@ class StockPicking(models.Model):
             consignee = partner.parent_id.name
         return {'consignee_name': consignee, 'contact': contact}
 
+    def _clean_postcode(self):
+
+        postcode = self.partner_id.zip
+        country = self.partner_id.country_id.code
+        if not country == 'GB':
+            postcode = re.sub('[^0-9]', '', postcode)
+        return postcode
+
     # Return delivery/receiver address as dict for value mapping
     @api.multi
     def _prepare_address_tnt(self):
@@ -152,7 +160,7 @@ class StockPicking(models.Model):
             address.update({"STREETADDRESS3": res[2]}),
         address.update({"CITY": self.partner_id.city}),
         address.update({"PROVINCE": False}),
-        address.update({"POSTCODE": self.partner_id.zip}),
+        address.update({"POSTCODE": self._clean_postcode()}),
         address.update({"COUNTRY": self.partner_id.country_id.code or 'GB'}),
         address.update({"VAT": False}),
         address.update({"CONTACTNAME": destination['contact'][:35]}),
