@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="view_quant_package_form_volume" model="ir.ui.view">
+            <field name="model">stock.quant.package</field>
+            <field name="inherit_id" ref="base_delivery_carrier_label.view_quant_package_form"/>
+            <field name="arch" type="xml">
+                <field name="weight" position="after">
+                    <field name="length"/>
+                    <field name="width"/>
+                    <field name="height"/>
+                    <field name="volume"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_withcarrier_out_form_volume" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.form.volume.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+                <field name="weight_net" position="after">
+                    <field name="consignment_volume"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
