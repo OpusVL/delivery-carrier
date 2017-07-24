@@ -554,17 +554,13 @@ class StockPicking(models.Model):
         return self.dict_to_xml_data(root, base_dict)
 
     def _prepare_packages_tnt(self, package):
-
         package_dict = OrderedDict()
         package_dict.update({"ITEMS": "1"})
         package_dict.update({"DESCRIPTION": package.quant_ids.product_id.name})
-        package_dict.update({"LENGTH": "1"})
-        package_dict.update({"HEIGHT": "1"})
-        package_dict.update({"WIDTH": "1"})
-        if package.quant_ids.product_id.weight and package.quant_ids.product_id.weight > 0:
-            package_dict.update({"WEIGHT": str(package.quant_ids.product_id.weight)})
-        else:
-            package_dict.update({"WEIGHT": "1"})
+        package_dict.update({"LENGTH": str(package.length)})
+        package_dict.update({"HEIGHT": str(package.height)})
+        package_dict.update({"WIDTH": str(package.width)})
+        package_dict.update({"WEIGHT": str(package.weight)})
         # package_dict.update({"ARTICLE": OrderedDict()})
         # package_dict.setdefault("ARTICLE").update({"ITEMS": ""})
         # package_dict.setdefault("ARTICLE").update({"DESCRIPTION": ""})
