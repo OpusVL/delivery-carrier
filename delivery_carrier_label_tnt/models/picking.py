@@ -376,7 +376,6 @@ class StockPicking(models.Model):
     # def get_zpl(self, authentication, service, delivery, address, pack):
     # authentication, sender, collection, preftime, alttime, details, address, delivery
     def get_zpl(self, service, delivery, address, pack, authentication, collection, preftime, alttime):
-    # def get_zpl(self, service, authentication, address, collection, preftime, alttime, delivery, pack):
         try:
             # _logger.info(
             #     "TNT label generating for delivery '%s', pack '%s'",
@@ -463,13 +462,7 @@ class StockPicking(models.Model):
     # Returns total package weight
     def _get_package_weight(self, packages):
 
-        combined_weight = 0
-        for package in packages:
-            product_id = package.quant_ids.product_id
-            if not float(product_id.weight) > 0:
-                raise exceptions.Warning("Product: {0} has an invalid weight. Please set and try again".format(product_id.name))
-            else:
-                combined_weight += product_id.weight
+        combined_weight = sum([package.weight for package in packages])
         if combined_weight > 70:
             raise exceptions.Warning("Package weight cannot exceed 70kg. Please split to smaller packages")
         return combined_weight
