@@ -333,7 +333,7 @@ class StockPicking(models.Model):
         #     if self.company_id.country_id.code == 'UK':
         #         labels.append(label_info)
         #     traceability.append(self._record_webservice_exchange(label, pack))
-        # self.write({'number_of_packages': pack_number})
+        self.write({'number_of_packages': pack_number})
         # if self.company_id.tnt_traceability and traceability:
         #     self._save_traceability(traceability, label)
         # self._customize_tnt_picking()
