@@ -12,6 +12,7 @@
     'depends': [
         'base_delivery_carrier_label',
         'base_delivery_carrier_hazardous',
+        'base_delivery_carrier_volume',
         'partner_helper',
         'stock_packaging_usability',  # Might not be needed
         'document',
