@@ -13,27 +13,22 @@ class StockQuantPackage(models.Model):
     @api.depends('length', 'width', 'height')
     def _compute_volume(self):
 
-        volume = self.length * self.width * self.height
-        return volume
+        self.volume = self.length * self.width * self.height
 
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    consignment_volume = fields.Float(string="Consigment Volume", compute='_compute_consignment_volume')
+    consignment_volume = fields.Float(string="Consignment Volume", compute='_compute_consignment_volume')
 
-    @api.multi
     def _compute_consignment_volume(self):
-        res = dict()
+
+        total_volume = 0.00
         for picking in self:
-            total_volume = 0.00
 
             for operation in picking.pack_operation_ids:
                 for result_package_id in operation.result_package_id:
-                    if result_package_id.volume:
-                        total_volume += result_package_id.volume
+                    if result_package_id.length and result_package_id.width and result_package_id.height:
+                        total_volume = result_package_id.length * result_package_id.width * result_package_id.height
 
-            res[picking.id] = {
-                'volume': total_volume
-            }
-        return res
+        self.volume = total_volume
