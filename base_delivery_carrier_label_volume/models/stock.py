@@ -1,19 +1,44 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api
+from openerp.exceptions import ValidationError
 
 
 class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
-    length = fields.Float(string="Length of package (m)")
-    width = fields.Float(string="Width of package (m)")
-    height = fields.Float(string="Height of package (m)")
+    length = fields.Float(string="Length of package (m)", help="Maximum length allowed is 3.6m")
+    width = fields.Float(string="Width of package (m)", help="Maximum width allowed is 1.8m")
+    height = fields.Float(string="Height of package (m)", help="Maximum height allowed is 2.1m")
     volume = fields.Float(string="Volume of package", compute='_compute_volume')
 
     @api.depends('length', 'width', 'height')
     def _compute_volume(self):
 
         self.volume = self.length * self.width * self.height
+
+    @api.constrains('length')
+    def _validate_length(self):
+
+        if self.length > 3.6:
+            raise ValidationError("Package length exceeds maximum allowed")
+
+    @api.constrains('width')
+    def _validate_width(self):
+
+        if self.width > 1.8:
+            raise ValidationError("Package width exceeds maximum allowed")
+
+    @api.constrains('height')
+    def _validate_height(self):
+
+        if self.height > 2.1:
+            raise ValidationError("Package height exceeds maximum allowed")
+
+    @api.constrains('weight')
+    def _validate_weight(self):
+
+        if self.weight > 70:
+            raise ValidationError("Package weight exceeds maximum allowed")
 
 
 class StockPicking(models.Model):

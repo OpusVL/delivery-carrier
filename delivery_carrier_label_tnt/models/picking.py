@@ -452,19 +452,15 @@ class StockPicking(models.Model):
     def _get_package_volume(self, packages):
         combined_volume = 0
         for package in packages:
-            product_id = package.quant_ids.product_id
-            if not float(product_id.volume) > 0:
-                raise exceptions.Warning("Product: {0} has an invalid volume. Please set and try again".format(product_id.name))
-            else:
-                combined_volume += product_id.volume
+            combined_volume += package.volume
         return combined_volume
 
     # Returns total package weight
     def _get_package_weight(self, packages):
 
         combined_weight = sum([package.weight for package in packages])
-        if combined_weight > 70:
-            raise exceptions.Warning("Package weight cannot exceed 70kg. Please split to smaller packages")
+        if combined_weight > 2000:
+            raise exceptions.Warning("Combined package weight cannot exceed 2000kg.")
         return combined_weight
 
     # Return dict of package totals to add to xml
