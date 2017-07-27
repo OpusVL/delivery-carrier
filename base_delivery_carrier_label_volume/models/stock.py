@@ -19,11 +19,17 @@ class StockQuantPackage(models.Model):
     @api.constrains('length')
     def _validate_length(self):
 
+        if not self.length > 0:
+            raise ValidationError("Please set the package length")
+
         if self.length > 3.6:
             raise ValidationError("Package length exceeds maximum allowed")
 
     @api.constrains('width')
     def _validate_width(self):
+
+        if not self.width > 0:
+            raise ValidationError("Please set the package width")
 
         if self.width > 1.8:
             raise ValidationError("Package width exceeds maximum allowed")
@@ -31,11 +37,17 @@ class StockQuantPackage(models.Model):
     @api.constrains('height')
     def _validate_height(self):
 
+        if not self.height > 0:
+            raise ValidationError("Please set the package height")
+
         if self.height > 2.1:
             raise ValidationError("Package height exceeds maximum allowed")
 
     @api.constrains('weight')
     def _validate_weight(self):
+
+        if not self.weight > 0:
+            raise ValidationError("Please set the package weight")
 
         if self.weight > 70:
             raise ValidationError("Package weight exceeds maximum allowed")
