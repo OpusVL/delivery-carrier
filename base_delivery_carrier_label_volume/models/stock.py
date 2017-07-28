@@ -43,14 +43,13 @@ class StockQuantPackage(models.Model):
         if self.height > 2.1:
             raise ValidationError("Package height exceeds maximum allowed")
 
-    @api.constrains('weight')
-    def _validate_weight(self):
-
-        if not self.weight > 0:
-            raise ValidationError("Please set the package weight")
-
-        if self.weight > 70:
-            raise ValidationError("Package weight exceeds maximum allowed")
+    # @api.constrains('weight')
+    # def _validate_weight(self):
+    #     if not self.weight > 0:
+    #         raise ValidationError("Please set the package weight")
+    #
+    #     if self.weight > 70:
+    #         raise ValidationError("Package weight exceeds maximum allowed")
 
 
 class StockPicking(models.Model):
@@ -58,8 +57,8 @@ class StockPicking(models.Model):
 
     consignment_volume = fields.Float(string="Consignment Volume", compute='_compute_consignment_volume')
 
+    @api.one
     def _compute_consignment_volume(self):
-
         total_volume = 0.00
         for picking in self:
 
