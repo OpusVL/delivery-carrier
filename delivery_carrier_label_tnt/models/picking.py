@@ -450,14 +450,21 @@ class StockPicking(models.Model):
 
     # Returns total package volume
     def _get_package_volume(self, packages):
-        combined_volume = 0
-        for package in packages:
-            combined_volume += package.volume
+        """
+        TNT consignment requires a combined volume of all packages
+        :param packages: list: stock.quant.package
+        :return: float: sum of all package volumes
+        """
+        combined_volume = round(sum([package.length * package.width * package.height for package in packages]), 2)
         return combined_volume
 
     # Returns total package weight
     def _get_package_weight(self, packages):
-
+        """
+        TNT consignment requires a combined weight of all packages. There is a maximum consignment weight of 2000kg
+        :param packages: list: stock.quant.package
+        :return: float: sum of all package weights
+        """
         combined_weight = sum([package.weight for package in packages])
         if combined_weight > 2000:
             raise exceptions.Warning("Combined package weight cannot exceed 2000kg.")
@@ -465,12 +472,18 @@ class StockPicking(models.Model):
 
     # Return dict of package totals to add to xml
     def _get_package_totals(self, packages):
+        """
+        TNT consignment requires combined totals of each of the packages.
+        :param packages: list: stock.quant.packages
+        :return: dict: totals of values from all packages
+        """
+        import pdb;pdb.set_trace()
         package_details = {
             "items": str(len(packages)),
-            "goodsvalue": str(sum(package.quant_ids.product_id.list_price for package in packages)),
+            "goodsvalue": str(round(sum(package.quant_ids.cost * package.quant_ids.qty for package in packages), 2)),
             "totalweight": str(self._get_package_weight(packages)),
             "totalvolume": str(self._get_package_volume(packages)),
-            "insurancevalue": str(sum(package.quant_ids.product_id.list_price for package in packages)),
+            "insurancevalue": str(round(sum(package.quant_ids.cost * package.quant_ids.qty for package in packages), 2)),
         }
         return package_details
 
