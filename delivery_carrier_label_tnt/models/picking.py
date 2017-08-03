@@ -477,7 +477,6 @@ class StockPicking(models.Model):
         :param packages: list: stock.quant.packages
         :return: dict: totals of values from all packages
         """
-        import pdb;pdb.set_trace()
         package_details = {
             "items": str(len(packages)),
             "goodsvalue": str(round(sum(package.quant_ids.cost * package.quant_ids.qty for package in packages), 2)),
@@ -563,6 +562,12 @@ class StockPicking(models.Model):
         return self.dict_to_xml_data(root, base_dict)
 
     def _prepare_packages_tnt(self, package):
+        """
+        Each package in the consignment must be defined in the consignment element. Insert the xml for the package
+        details after the delivery instructions tag
+        :param package: stock.quant.package
+        :return: xml tree of the package details
+        """
         package_dict = OrderedDict()
         package_dict.update({"ITEMS": "1"})
         package_dict.update({"DESCRIPTION": package.quant_ids.product_id.name})

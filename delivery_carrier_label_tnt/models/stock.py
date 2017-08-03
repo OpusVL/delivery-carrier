@@ -33,6 +33,15 @@ class StockPackOperation(models.Model):
         if self.result_package_id and self.result_package_id.parcel_tracking:
             return self.result_package_id.open_tracking_url()
 
+    # If product weights aren't set then the base get_weight() function will return 0. If this happens then get the
+    # weight of each package and use the sum of the package weight instead.
+    @api.multi
+    def get_weight(self):
+        res = super(StockPackOperation, self).get_weight()
+        if res == 0:
+            res = self.result_package_id.weight
+        return res
+
 
 class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
