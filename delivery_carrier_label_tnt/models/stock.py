@@ -40,6 +40,8 @@ class StockPackOperation(models.Model):
         res = super(StockPackOperation, self).get_weight()
         if res == 0:
             res = self.result_package_id.weight
+        if res == 0:
+            raise UserError(u"Please enter package dimensions")
         return res
 
 
