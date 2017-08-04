@@ -226,23 +226,6 @@ class StockPicking(models.Model):
         else:
             raise exceptions.Warning("You must provide a Receiver Telephone Number")
 
-    # TODO Combine with todo above to prepare package details
-    @api.model
-    def _prepare_pack_tnt(self, package, pack_number):
-        package_details = OrderedDict()
-        package_details.update({"ITEMS": "1"})
-        package_details.update({"DESCRIPTION": "Box #"})
-        package_details.update({"LENGTH": "0.2"})
-        package_details.update({"HEIGHT": "0.2"})
-        package_details.update({"HEIGHT": "0.2"})
-        package_details.update({})
-        return {
-            'parcel_number_label': pack_number,
-            'parcel_number_barcode': pack_number,
-            'custom_sequence': self._get_sequence('tnt'),
-            'weight': "{0:05.2f}".format(package.weight)
-        }
-
     @api.model
     def _prepare_package_details(self):
         return {
@@ -498,6 +481,18 @@ class StockPicking(models.Model):
 
     # Base definition of request data in ordered dict format
     def _prepare_base_request_data(self, authentication, sender, preftime, alttime, conref, address, package_totals):
+        """
+        The xml data to be sent to TNT has to be structured in an ordered format. By using and OrderedDict the
+        elements can be controlled and then the OrderedDict parsed using lxml to generate the xml string
+        :param authentication: dict: The companies TNT account login details
+        :param sender: dict: The address of the the company sending the consignment
+        :param preftime: dict: The preferred collection time of the consignment from the company
+        :param alttime: dict: The alternate collection time of the consignment from the company
+        :param conref: dict: The consignment reference
+        :param address: dict: The address of the recipient of the consignment
+        :param package_totals: dict: The sum of volume, weight and values of the packages in the consignment
+        :return: xml string of the OrderedDict
+        """
         base_dict = OrderedDict()
         base_dict.update({"LOGIN": authentication})
         base_dict.update({"CONSIGNMENTBATCH": OrderedDict()})
@@ -612,6 +607,12 @@ class StockPicking(models.Model):
 
     # Return a valid consignment number when using custom consignment numbers is enabled
     def _calculate_checksum(self, con_number):
+        """
+        If the company has chosen to use their own consignment number pattern then a check digit for the custom
+        consignment number must be calculated
+        :param con_number: str: The custom consignment number set in the carrier configuration
+        :return: str: The custom consignment number with the check digit added
+        """
         digit_weights = [8, 6, 4, 2, 3, 5, 9, 7]
         mod_method = 11
         number_sum = 0
