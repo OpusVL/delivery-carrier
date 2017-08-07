@@ -3,21 +3,19 @@
    :alt: License: AGPL-3
 
 ================================
-Delivery Carrier Label GLS Group
+Delivery Carrier Label TNT
 ================================
 
 
-GLS Group - Transportation services
+TNT Transportation services
 +++++++++++++++++++++++++++++++++++
 
-Unibox service implementation:
+TNT Express Connect service integration:
 
-- send delivery order informations and parcel info to the GLS unibox server
-- webservice routing info in background
-- label GLS Unibox generation
+- Send shipment details to TNT and receive back the shipping labels
 
 
-GLS carrier https://gls-group.eu/
+TNT http://www.tnt.com/express/en_gb/site/home.html
 
 |
 
@@ -26,20 +24,20 @@ Configuration
 
 To configure this module, you need to:
 
-# Go to the menu Settings > Configuration > Warehouse, and check 'Use packages: pallets, boxes'
-# Go to the menu Settings > Configuration > Carriers > GLS
+##Go to the menu Settings > Configuration > Warehouse, and check 'Use packages: pallets, boxes'
+# Go to the menu Settings > Configuration > Carriers > TNT
 # Complete account parameters
 # Complete company country in Settings > Companies
 
-.. image:: /delivery_carrier_label_gls/static/description/gls1.png
-   :alt: Account GLS settings by company Odoo ERP
+.. image:: /delivery_carrier_label_tnt/static/description/tnt1.png
+   :alt: Account TNT settings by company Odoo ERP
 
 |
 
 Usage
 =====
 
-To use this module, you need to create a Delivery Order with Carrier field 'GLS Group'
+To use this module, you need to create a Delivery Order with Carrier field 'TNT Express'
 
 Odoo Delivery Order with GLS carrier
 ++++++++++++++++++++++++++++++++++++
