@@ -62,13 +62,6 @@ class InvalidDataForMako(Exception):
     print "InvalidMissingField"
 
 
-def tnt_decode_initial_response(data):
-    access_code = None
-    if "COMPLETE" in data:
-        access_code = data.split(":")[1]
-    return access_code
-
-
 class TNTLabel(AbstractLabel):
 
     def __init__(self, test_platform=False):
@@ -176,7 +169,7 @@ class TNTLabel(AbstractLabel):
 
         # Validate response returned by initial request
         # access_code = '926734877'
-        access_code = tnt_decode_initial_response(initial_response)
+        access_code = self.tnt_decode_initial_response(initial_response)
         success, access_code_response = self.get_webservice_response("GET_LABEL:%s" % access_code)
         if not success:
             return False, access_code_response
@@ -193,6 +186,12 @@ class TNTLabel(AbstractLabel):
         )
         label_as_ascii = binascii.b2a_base64(dom_as_pdf)
         return True, label_as_ascii
+
+    def tnt_decode_initial_response(self, data):
+        access_code = None
+        if "COMPLETE" in data:
+            access_code = data.split(":")[1]
+        return access_code
 
 
     # def get_label(self, authentication, collection, preftime, alttime, address, pack):
