@@ -18,18 +18,34 @@
         <!-- PARTNER -->
         <record id="partner_tnt" model="res.partner">
             <field name="name">TNT</field>
-            <field name="customer" eval="False" />
-            <field name="supplier" eval="True" />
-            <field name="is_company" eval="True" />
+            <field name="customer" eval="False"/>
+            <field name="supplier" eval="True"/>
+            <field name="is_company" eval="True"/>
         </record>
 
         <!-- DELIVERY CARRIER -->
         <record id="delivery_carrier_tnt" model="delivery.carrier">
-            <field name="name">TNT Express</field>
+            <field name="name">TNT Express Next Day</field>
             <field name="type">tnt</field>
             <field name="code">1</field>
-            <field name="partner_id" ref="partner_tnt" />
-            <field name="product_id" ref="product_product_tnt" />
+            <field name="partner_id" ref="partner_tnt"/>
+            <field name="product_id" ref="product_product_tnt"/>
+        </record>
+
+        <record id="delivery_carrier_tnt_9am" model="delivery.carrier">
+            <field name="name">TNT Express 9AM</field>
+            <field name="type">tnt</field>
+            <field name="code">2</field>
+            <field name="partner_id" ref="partner_tnt"/>
+            <field name="product_id" ref="product_product_tnt"/>
+        </record>
+
+        <record id="delivery_carrier_tnt_12pm" model="delivery.carrier">
+            <field name="name">TNT Express 12PM</field>
+            <field name="type">tnt</field>
+            <field name="code">3</field>
+            <field name="partner_id" ref="partner_tnt"/>
+            <field name="product_id" ref="product_product_tnt"/>
         </record>
 
     </data>
@@ -38,8 +54,8 @@
 
         <!-- CONFIG PARAMETER -->
         <!--<record id="delivery_carrier_tnt_customer_code" model="ir.config_parameter">-->
-            <!--<field name="key">carrier_tnt_customer_code</field>-->
-            <!--<field name="value">2500099999</field>-->
+        <!--<field name="key">carrier_tnt_customer_code</field>-->
+        <!--<field name="value">2500099999</field>-->
         <!--</record>-->
         <record id="delivery_carrier_tnt_warehouse" model="ir.config_parameter">
             <field name="key">carrier_tnt_warehouse</field>
