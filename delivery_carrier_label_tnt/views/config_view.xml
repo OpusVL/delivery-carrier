@@ -12,7 +12,7 @@
                         or
                         <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                         <a href="https://www.tnt.com/express/en_gb/site/home.html" target="_blank">
-                            <img src="delivery_carrier_label_tnt/static/src/img/icon.png"/>
+                            <img src="delivery_carrier_label_tnt/static/src/img/icon.png" height="30px" margin="5px"/>
                         </a>
                     </header>
 
