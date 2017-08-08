@@ -27,7 +27,7 @@ from openerp.exceptions import Warning as UserError
 _logger = logging.getLogger(__name__)
 
 
-URL_TRACKING = "https://tnt_tracking_url_here_%s"
+URL_TRACKING = "https://express.tnt.com/expressconnect/track.do"
 
 
 class ShippingLabel(models.Model):
