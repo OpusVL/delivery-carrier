@@ -458,6 +458,8 @@ class StockPicking(models.Model):
         :return: float: sum of all package volumes
         """
         combined_volume = round(sum([package.length * package.width * package.height for package in packages]), 2)
+        # TODO Fix write method to save consignment volume
+        self.consignment_volume = combined_volume
         return combined_volume
 
     # Returns total package weight
@@ -470,6 +472,8 @@ class StockPicking(models.Model):
         combined_weight = sum([package.weight for package in packages])
         if combined_weight > 2000:
             raise exceptions.Warning("Combined package weight cannot exceed 2000kg.")
+        # TODO Fix write method to save weight and net weight
+        self.weight = self.weight_net = combined_weight
         return combined_weight
 
     # Return dict of package totals to add to xml
