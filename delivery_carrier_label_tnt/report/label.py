@@ -174,8 +174,10 @@ class TNTLabel(AbstractLabel):
         if not success:
             return False, access_code_response
         access_code_response = access_code_response.encode("utf-8")
-
         xml = et.XML(access_code_response)
+
+        tracking_number = self._get_tracking_number(xml)
+
         xslt = self.get_xsl()
         transform = et.XSLT(xslt)
         dom = transform(xml)
@@ -185,7 +187,11 @@ class TNTLabel(AbstractLabel):
             # css=css_files,
         )
         label_as_ascii = binascii.b2a_base64(dom_as_pdf)
-        return True, label_as_ascii
+        return True, label_as_ascii, tracking_number
+
+    def _get_tracking_number(self, xml):
+        consignment_number = xml.find('CONSIGNMENT/CONNUMBER').text
+        return consignment_number
 
     def tnt_decode_initial_response(self, data):
         access_code = None
@@ -290,7 +296,6 @@ class TNTLabel(AbstractLabel):
         return dom
 
     def get_webservice_response(self, request):
-        import pdb;pdb.set_trace()
         request = "xml_in=" + request
         res = requests.post(self.webservice_location, data=request, headers={'Content-Type': 'application/x-www-form-urlencoded'})
         if res.status_code != 200:

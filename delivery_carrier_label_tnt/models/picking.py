@@ -294,9 +294,10 @@ class StockPicking(models.Model):
 
         # Remove unneeded newline
         base_data = base_data.replace("\n", "")
-        success, label_as_ascii = service.get_label(base_data)
+        success, label_as_ascii, tracking_number = service.get_label(base_data)
         if not success:
             raise exceptions.Warning("Error code %s received: %s" %(label_as_ascii.status_code, label_as_ascii.reason))
+        self.carrier_tracking_ref = tracking_number
         self.create_tnt_attachment(label_as_ascii)
         # either user self.company_id.tnt_connumber = blah
         # or self.company_id.write({'tnt_connumber': blah})
