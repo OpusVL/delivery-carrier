@@ -105,9 +105,9 @@ class StockTransferDetails(models.TransientModel):
                             u"All products to deliver for carrier '%s' \n"
                             u"must be put in a parcel."
                             % transfer.picking_id.carrier_id.name)
-                    if not (item.package_id.weight > 0 or item.result_package_id.weight > 0 and \
-                            item.package_id.length > 0 or item.result_package_id.length > 0 and \
-                            item.package_id.width > 0 or item.result_package_id.width > 0 and \
+                    if not (item.package_id.weight > 0 or item.result_package_id.weight > 0 and
+                            item.package_id.length > 0 or item.result_package_id.length > 0 and
+                            item.package_id.width > 0 or item.result_package_id.width > 0 and
                             item.package_id.height > 0 or item.result_package_id.height > 0):
                         raise UserError(u"Please enter package dimensions")
         return super(StockTransferDetails, self).do_detailed_transfer()
