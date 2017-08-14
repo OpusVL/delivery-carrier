@@ -24,26 +24,42 @@
         </record>
 
         <!-- DELIVERY CARRIER -->
-        <record id="delivery_carrier_tnt" model="delivery.carrier">
-            <field name="name">TNT Express Next Day</field>
+        <record id="delivery_carrier_tnt_9am" model="delivery.carrier">
+            <field name="name">TNT 09:00 Express</field>
             <field name="type">tnt</field>
-            <field name="code">1</field>
+            <field name="code">09N</field>
             <field name="partner_id" ref="partner_tnt"/>
             <field name="product_id" ref="product_product_tnt"/>
         </record>
 
-        <record id="delivery_carrier_tnt_9am" model="delivery.carrier">
-            <field name="name">TNT Express 9AM</field>
+        <record id="delivery_carrier_tnt_10am" model="delivery.carrier">
+            <field name="name">TNT 10:00 Express</field>
             <field name="type">tnt</field>
-            <field name="code">2</field>
+            <field name="code">10N</field>
             <field name="partner_id" ref="partner_tnt"/>
             <field name="product_id" ref="product_product_tnt"/>
         </record>
 
         <record id="delivery_carrier_tnt_12pm" model="delivery.carrier">
-            <field name="name">TNT Express 12PM</field>
+            <field name="name">TNT 12:00 Express</field>
             <field name="type">tnt</field>
-            <field name="code">3</field>
+            <field name="code">12N</field>
+            <field name="partner_id" ref="partner_tnt"/>
+            <field name="product_id" ref="product_product_tnt"/>
+        </record>
+
+        <record id="delivery_carrier_tnt_express" model="delivery.carrier">
+            <field name="name">TNT Express</field>
+            <field name="type">tnt</field>
+            <field name="code">15N</field>
+            <field name="partner_id" ref="partner_tnt"/>
+            <field name="product_id" ref="product_product_tnt"/>
+        </record>
+
+        <record id="delivery_carrier_tnt_economy" model="delivery.carrier">
+            <field name="name">TNT Economy Express</field>
+            <field name="type">tnt</field>
+            <field name="code">48N</field>
             <field name="partner_id" ref="partner_tnt"/>
             <field name="product_id" ref="product_product_tnt"/>
         </record>
