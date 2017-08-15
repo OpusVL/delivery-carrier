@@ -172,7 +172,7 @@ class TNTLabel(AbstractLabel):
         access_code = self.tnt_decode_initial_response(initial_response)
         success, access_code_response = self.get_webservice_response("GET_LABEL:%s" % access_code)
         if not success:
-            return False, access_code_response
+            return False, access_code_response, None
         access_code_response = access_code_response.encode("utf-8")
         xml = et.XML(access_code_response)
 
