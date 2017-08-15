@@ -492,6 +492,15 @@ class StockPicking(models.Model):
         }
         return package_details
 
+    # Only service code 1 seems to work for UK destinations, so check if target country is GB and return service
+    # code '1' if true.
+    def _get_carrier_code(self):
+
+        if self.partner_id.country_id.code != 'GB':
+            return self.carrier_code
+        else:
+            return '1'
+
     # Check if collection date is the weekend and adjust collection date accordingly
     def _get_collection_date(self):
         collection_date = datetime.today() + timedelta(days=1)
@@ -546,11 +555,9 @@ class StockPicking(models.Model):
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"GOODSVALUE": package_totals.get("goodsvalue")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"INSURANCEVALUE": package_totals.get("insurancevalue")})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"INSURANCECURRENCY": "GBP"})
-        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"SERVICE": self.carrier_code})
-        # base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"OPTION": "09N"})
+        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"SERVICE": self._get_carrier_code()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DESCRIPTION": False})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").setdefault("DETAILS").update({"DELIVERYINST": False})
-
 
         base_dict.update({"ACTIVITY": OrderedDict()})
         base_dict.setdefault("ACTIVITY").update({"CREATE": OrderedDict()})
