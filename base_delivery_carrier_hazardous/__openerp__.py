@@ -37,6 +37,7 @@
     'data': [
         'data/hazardous.codes.csv',
         'views/product_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
