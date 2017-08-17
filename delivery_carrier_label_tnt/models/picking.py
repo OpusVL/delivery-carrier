@@ -281,8 +281,6 @@ class StockPicking(models.Model):
             base_data = et.tostring(base, encoding="UTF-8", method="xml", standalone=False)
 
         # Add hazardous xml
-        # import pdb;pdb.set_trace()
-        # if self.hazardous_id:
         if any(line.product_id.hazardous_id for line in self.move_lines):
             base = et.fromstring(base_data)
             target_node = base.xpath("//PACKAGE")[0]
