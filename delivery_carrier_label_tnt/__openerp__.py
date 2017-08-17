@@ -41,6 +41,7 @@
         'data/sequence.xml',
         'views/config_view.xml',
         'views/stock_view.xml',
+        'security/ir.model.access.csv'
     ],
     'demo': [
         'demo/config.yml',
