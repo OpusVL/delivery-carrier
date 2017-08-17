@@ -595,7 +595,7 @@ class StockPicking(models.Model):
         """
         package_dict = OrderedDict()
         package_dict.update({"ITEMS": "1"})
-        package_dict.update({"DESCRIPTION": package.quant_ids.product_id.name})
+        package_dict.update({"DESCRIPTION": package.quant_ids.product_id.name[:60]})
         package_dict.update({"LENGTH": str(package.length)})
         package_dict.update({"HEIGHT": str(package.height)})
         package_dict.update({"WIDTH": str(package.width)})
