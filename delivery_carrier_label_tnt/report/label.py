@@ -170,6 +170,14 @@ class TNTLabel(AbstractLabel):
         # Validate response returned by initial request
         # access_code = '926734877'
         access_code = self.tnt_decode_initial_response(initial_response)
+        success, get_result_response = self.get_webservice_response("GET_RESULT:%s" % access_code)
+        if not success:
+            return False, get_result_response.status_code, get_result_response.reason, None
+        get_result_response = get_result_response.encode("utf-8")
+        get_result_xml = et.XML(get_result_response)
+        if get_result_xml.findall('.//ERROR'):
+            return False, get_result_xml.find('.//DESCRIPTION').text, None
+
         success, access_code_response = self.get_webservice_response("GET_LABEL:%s" % access_code)
         if not success:
             return False, access_code_response, None
