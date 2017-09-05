@@ -129,8 +129,8 @@ class StockPicking(models.Model):
     @api.model
     def _prepare_preftime(self):
         preftime = OrderedDict()
-        preftime.update({"FROM": "10:00"})
-        preftime.update({"TO": "11:00"})
+        preftime.update({"FROM": "09:00"})
+        preftime.update({"TO": "17:00"})
         return preftime
 
     # Return preferred collection time as a dict to use for mapping
