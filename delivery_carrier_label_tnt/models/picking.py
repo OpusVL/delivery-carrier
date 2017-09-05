@@ -262,11 +262,10 @@ class StockPicking(models.Model):
         sender = self._prepare_sender_tnt()
         collection = self._prepare_sender_tnt()
         preftime = self._prepare_preftime()
-        alttime = self._prepare_alttime()
         conref = self.sale_id.name
         address = self._prepare_address_tnt()
         package_details = self._get_package_totals(self._get_packages_from_picking())
-        base_data = self._prepare_base_request_data(authentication, sender, preftime, alttime, conref, address, package_details)
+        base_data = self._prepare_base_request_data(authentication, sender, preftime, conref, address, package_details)
         if packages is None:
             packages = self._get_packages_from_picking()
         delivery = self._prepare_delivery_tnt(len(packages))
@@ -377,12 +376,12 @@ class StockPicking(models.Model):
 
     # def get_zpl(self, authentication, service, delivery, address, pack):
     # authentication, sender, collection, preftime, alttime, details, address, delivery
-    def get_zpl(self, service, delivery, address, pack, authentication, collection, preftime, alttime):
+    def get_zpl(self, service, delivery, address, pack, authentication, collection, preftime):
         try:
             # _logger.info(
             #     "TNT label generating for delivery '%s', pack '%s'",
             #     delivery['consignee_ref'], pack['parcel_number_label'])
-            result = service.get_label(authentication, collection, preftime, alttime, address, pack)
+            result = service.get_label(authentication, collection, preftime, address, pack)
 
         except (InvalidMissingField,
                 InvalidDataForMako,
@@ -512,14 +511,13 @@ class StockPicking(models.Model):
             return datetime.strftime(collection_date + timedelta(days=1), "%d/%m/%Y")
 
     # Base definition of request data in ordered dict format
-    def _prepare_base_request_data(self, authentication, sender, preftime, alttime, conref, address, package_totals):
+    def _prepare_base_request_data(self, authentication, sender, preftime, conref, address, package_totals):
         """
         The xml data to be sent to TNT has to be structured in an ordered format. By using and OrderedDict the
         elements can be controlled and then the OrderedDict parsed using lxml to generate the xml string
         :param authentication: dict: The companies TNT account login details
         :param sender: dict: The address of the the company sending the consignment
         :param preftime: dict: The preferred collection time of the consignment from the company
-        :param alttime: dict: The alternate collection time of the consignment from the company
         :param conref: dict: The consignment reference
         :param address: dict: The address of the recipient of the consignment
         :param package_totals: dict: The sum of volume, weight and values of the packages in the consignment
@@ -533,7 +531,6 @@ class StockPicking(models.Model):
         # base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"COLLECTIONADDRESS": self.sender.copy()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"SHIPDATE": self._get_collection_date()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"PREFCOLLECTTIME": preftime})
-        base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"ALTCOLLECTTIME": alttime})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("SENDER").setdefault("COLLECTION").update({"COLLINSTRUCTIONS": False})
         base_dict.setdefault("CONSIGNMENTBATCH").update({"CONSIGNMENT": OrderedDict()})
         base_dict.setdefault("CONSIGNMENTBATCH").setdefault("CONSIGNMENT").update({"CONREF": conref})
