@@ -289,6 +289,12 @@ class StockPicking(models.Model):
             unnumber.text = str(self.product_id.hazardous_id.name_id)
             target_node.addprevious(hazardous)
             target_node.addprevious(unnumber)
+
+            target_node = base.xpath("//DELIVERYINST")[0]
+            target_node.text = "%s UN%s" % (
+                str(self.product_id.hazardous_id.name), self.product_id.hazardous_id.name_id
+            )
+
             base_data = et.tostring(base, encoding="UTF-8", method="xml", standalone=False)
 
         # Remove unneeded newline
