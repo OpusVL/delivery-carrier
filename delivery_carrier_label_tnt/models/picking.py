@@ -508,7 +508,7 @@ class StockPicking(models.Model):
 
     # Check if collection date is the weekend and adjust collection date accordingly
     def _get_collection_date(self):
-        collection_date = datetime.today() + timedelta(days=1)
+        collection_date = datetime.today()
         if collection_date.weekday() < 5:
             return datetime.strftime(collection_date, "%d/%m/%Y")
         elif collection_date.weekday() == 5:
