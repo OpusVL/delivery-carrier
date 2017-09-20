@@ -14,6 +14,17 @@ class ProductTemplate(models.Model):
     )
 
 
+# Add hazardous product to product product, related to hazardous.codes model
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    hazardous_id = fields.Many2one(
+        comodel_name='hazardous.codes',
+        string='Description',
+        help='UN Description of the hazardous material'
+    )
+
+
 # Model for list of hazardous codes
 class HazardousCodes(models.Model):
 
