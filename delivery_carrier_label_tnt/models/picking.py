@@ -490,10 +490,10 @@ class StockPicking(models.Model):
         """
         package_details = {
             "items": str(len(packages)),
-            "goodsvalue": str(round(sum(package.quant_ids.cost * package.quant_ids.qty for package in packages), 2)),
+            "goodsvalue": str(round(sum(quant.cost * quant.qty for package in packages for quant in package.quant_ids), 2)),
             "totalweight": str(self._get_package_weight(packages)),
             "totalvolume": str(self._get_package_volume(packages)),
-            "insurancevalue": str(round(sum(package.quant_ids.cost * package.quant_ids.qty for package in packages), 2)),
+            "insurancevalue": str(round(sum(quant.cost * quant.qty for package in packages for quant in package.quant_ids), 2)),
         }
         return package_details
 
@@ -598,7 +598,7 @@ class StockPicking(models.Model):
         """
         package_dict = OrderedDict()
         package_dict.update({"ITEMS": "1"})
-        package_dict.update({"DESCRIPTION": package.quant_ids.product_id.name[:60]})
+        package_dict.update({"DESCRIPTION": next(quant.product_id.name for quant in package.quant_ids)[:60]})
         package_dict.update({"LENGTH": str(package.length)})
         package_dict.update({"HEIGHT": str(package.height)})
         package_dict.update({"WIDTH": str(package.width)})
