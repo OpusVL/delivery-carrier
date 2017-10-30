@@ -9,7 +9,7 @@ class StockQuantPackage(models.Model):
     length = fields.Float(string="Length of package (m)", help="Maximum length allowed is 3.6m")
     width = fields.Float(string="Width of package (m)", help="Maximum width allowed is 1.8m")
     height = fields.Float(string="Height of package (m)", help="Maximum height allowed is 2.1m")
-    volume = fields.Float(string="Volume of package", compute='_compute_volume')
+    volume = fields.Float(string="Volume of package", compute='_compute_volume', digits=(8, 3))
 
     @api.depends('length', 'width', 'height')
     def _compute_volume(self):
