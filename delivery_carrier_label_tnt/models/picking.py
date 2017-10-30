@@ -462,7 +462,7 @@ class StockPicking(models.Model):
         :param packages: list: stock.quant.package
         :return: float: sum of all package volumes
         """
-        combined_volume = round(sum([package.length * package.width * package.height for package in packages]), 2)
+        combined_volume = round(sum([package.length * package.width * package.height for package in packages]), 3)
         # TODO Fix write method to save consignment volume
         self.consignment_volume = combined_volume
         return combined_volume
