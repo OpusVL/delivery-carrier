@@ -217,7 +217,7 @@ class StockPicking(models.Model):
         sender.update({"COMPANYNAME": self.company_id.name})
         sender.update({"STREETADDRESS1": partner.street})
         sender.update({"STREETADDRESS2": partner.street2})
-        sender.update({"STREETADDRESS3": partner.street2})
+        sender.update({"STREETADDRESS3": ""})
         sender.update({"CITY": partner.city})
         sender.update({"PROVINCE": partner.state_id.name})
         sender.update({"POSTCODE": partner.zip})
